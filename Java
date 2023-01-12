@@ -1,0 +1,82 @@
+import java.util.Scanner;
+
+public class BankApp {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount();
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true) {
+            System.out.println("1. Create account");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
+            System.out.print("Enter choice: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            
+            if (choice == 1) {
+                System.out.print("Enter username: ");
+                String username = scanner.nextLine();
+                System.out.print("Enter password: ");
+                String password = scanner.nextLine();
+                
+                account.createAccount(username, password);
+            } else if (choice == 2) {
+                System.out.print("Enter username: ");
+                String username = scanner.nextLine();
+                System.out.print("Enter password: ");
+                String password = scanner.nextLine();
+                
+                if (account.login(username, password)) {
+                    while (true) {
+                        System.out.println("1. Check balance");
+                        System.out.println("2. Send money");
+                        System.out.println("3. Receive money");
+                        System.out.println("4. See transaction history");
+                        System.out.println("5. Logout");
+                        System.out.print("Enter choice: ");
+                        
+                        int choice2 = scanner.nextInt();
+                        scanner.nextLine();
+                        
+                        if (choice2 == 1) {
+                            System.out.println("Your balance is: " + account.getBalance());
+                        } else if (choice2 == 2) {
+                            System.out.print("Enter recipient's username: ");
+                            String recipient = scanner.nextLine();
+                            System.out.print("Enter amount: ");
+                            double amount = scanner.nextDouble();
+                            scanner.nextLine();
+                            
+                            account.sendMoney(recipient, amount);
+                        } else if (choice2 == 3) {
+                            System.out.print("Enter sender's username: ");
+                            String sender = scanner.nextLine();
+                            System.out.print("Enter amount: ");
+                            double amount = scanner.nextDouble();
+                            scanner.nextLine();
+                            
+                            account.receiveMoney(sender, amount);
+                        } else if (choice2 == 4) {
+                            account.seeTransactionHistory();
+                        } else if (choice2 == 5) {
+                            break;
+                        }
+                    }
+                } else {
+                    System.out.println("Invalid username or password");
+                }
+            } else if (choice == 3) {
+                break;
+            }
+        }
+    }
+}
+
+class BankAccount {
+    private String username;
+    private String password;
+    private double balance;
+    private String[] transactionHistory;
+    private int transactionCount;
+    private boolean loggedIn;
